@@ -2,13 +2,19 @@
 
 Small javascript library to perform two-way binding between vertical scrolling in a web browser and navigation menus.
 
+#### Demos:
+
+1. [Basic Demo](http://warren-bank.github.io/js-browser-menu-scroller/demos/1-basic/index.html)
+   * [viewsource](https://github.com/warren-bank/js-browser-menu-scroller/blob/gh-pages/demos/1-basic/index.html)
+
 #### Usage:
 
-__CDNs:__
+_CDNs:_
 
-* `<script src="http://warren-bank.github.io/js-browser-menu-scroller/MenuScroller.js"></script>`
+* [Github Pages](http://warren-bank.github.io/js-browser-menu-scroller/MenuScroller.js)
+* [jsDelivr](https://cdn.jsdelivr.net/gh/warren-bank/js-browser-menu-scroller/MenuScroller.min.js)
 
-__API:__
+_API:_
 
 * `window.MenuScroller.bind(menuElements, markerElements, cssClass, options)`
   * description:
@@ -120,11 +126,6 @@ __API:__
       * measured in milliseconds
       * default: 500
         * half of a second
-
-#### Demos:
-
-1. [Basic Demo](http://warren-bank.github.io/js-browser-menu-scroller/demos/1-basic/index.html)
-   * [viewsource](https://github.com/warren-bank/js-browser-menu-scroller/blob/gh-pages/demos/1-basic/index.html)
 
 #### Dependencies:
 
