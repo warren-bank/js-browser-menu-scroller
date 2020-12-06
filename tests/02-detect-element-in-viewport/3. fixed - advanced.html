@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>test</title>
+  <style>
+    .mock_content {
+      height: 500px;
+    }
+    .marker_content {
+      height: 3px;
+      background-color: black;
+    }
+    .scrollable_content {
+      height: 5em;
+      border: 1px solid black;
+      overflow: auto;
+    }
+  </style>
+  <script>
+    {
+      const get_element_style_int = (style, name, default_value=0) => {
+        const value = parseInt(style[name], 10)
+
+        return isNaN(value)
+          ? default_value
+          : value
+      }
+
+      const get_element_bounding_rect = (element) => {
+        if (element === document) return null
+
+        const style = getComputedStyle(element)
+        const $rect = element.getBoundingClientRect()
+        const  rect = {
+          top:    $rect.top,
+          left:   $rect.left,
+          bottom: $rect.bottom,
+          right:  $rect.right
+        }
+
+        rect.top    += get_element_style_int(style, 'paddingTop',    0)
+        rect.left   += get_element_style_int(style, 'paddingLeft',   0)
+        rect.bottom -= get_element_style_int(style, 'paddingBottom', 0)
+        rect.right  -= get_element_style_int(style, 'paddingRight',  0)
+
+        return rect
+      }
+
+      const is_bounding_rect_visible_in_viewport = (rect_element, rect_container) => {
+        let ok = (
+             (rect_element.top    >= 0)
+          && (rect_element.bottom <= (window.innerHeight || document.documentElement.clientHeight))
+        )
+
+        if (ok && rect_container) {
+          ok = (
+               (rect_element.top    >= rect_container.top)
+            && (rect_element.bottom <= rect_container.bottom)
+          )
+        }
+
+        return ok
+      }
+
+      const is_element_visible_in_viewport = (element, container) => {
+        const rect_element   = get_element_bounding_rect(element)
+        const rect_container = get_element_bounding_rect(container)
+        return is_bounding_rect_visible_in_viewport(rect_element, rect_container)
+      }
+
+      // -----------------------------------------------------------------------
+
+      const timers = {}
+
+      const scrollEventHandler = (event) => {
+        const target = event.target
+
+        if (timers[target]) return
+
+        timers[target] = setTimeout(() => {
+          const element    = target.querySelector(':scope .marker_content')
+          const is_visible = is_element_visible_in_viewport(element, target)
+
+          console.log({event, target, is_visible})
+          timers[target] = null
+        }, 500)
+      }
+
+      window.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('scroll', scrollEventHandler)
+
+        document.querySelector('.scrollable_content').addEventListener('scroll', scrollEventHandler)
+      })
+    }
+  </script>
+</head>
+<body>
+  <div class="mock_content"></div>
+  <div class="marker_content"></div>
+  <div class="mock_content"></div>
+  <div class="scrollable_content">
+    <div class="mock_content"></div>
+    <div class="marker_content"></div>
+    <div class="mock_content"></div>
+  </div>
+  <div class="mock_content"></div>
+</body>
+</html>

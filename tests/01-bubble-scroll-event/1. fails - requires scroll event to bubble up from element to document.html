@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>test</title>
+  <style>
+    .mock_content {
+      height: 500px;
+    }
+    .scrollable_content {
+      height: 5em;
+      border: 1px solid black;
+      overflow: auto;
+    }
+  </style>
+  <script>
+    {
+      let timer = null
+
+      document.addEventListener('scroll', (event) => {
+        if (timer !== null) return
+
+        timer = setTimeout(() => {
+          const target  = event.target
+          const scrollY = {
+            win:    window.scrollY,
+            target: (target === document) ? window.scrollY : target.scrollTop
+          }
+
+          console.log({event, target, scrollY})
+          timer = null
+        }, 500)
+      })
+
+    }
+  </script>
+</head>
+<body>
+  <div class="mock_content"></div>
+  <div class="scrollable_content">
+    <div>lorem ipsum</div>
+    <div>lorem ipsum</div>
+    <div>lorem ipsum</div>
+    <div>lorem ipsum</div>
+    <div>lorem ipsum</div>
+    <div>lorem ipsum</div>
+    <div>lorem ipsum</div>
+    <div>lorem ipsum</div>
+    <div>lorem ipsum</div>
+    <div>lorem ipsum</div>
+  </div>
+  <div class="mock_content"></div>
+</body>
+</html>
