@@ -4,15 +4,23 @@ Small javascript library to perform two-way binding between vertical scrolling i
 
 #### Demos:
 
-1. [Basic Demo](http://warren-bank.github.io/js-browser-menu-scroller/demos/1-basic/index.html)
-   * [viewsource](https://github.com/warren-bank/js-browser-menu-scroller/blob/gh-pages/demos/1-basic/index.html)
+1. Basic Demo
+   * [ES6](http://warren-bank.github.io/js-browser-menu-scroller/demos/1-basic/index.html)
+     * [source](https://github.com/warren-bank/js-browser-menu-scroller/blob/gh-pages/demos/1-basic/index.html)
+   * [ES5](http://warren-bank.github.io/js-browser-menu-scroller/demos/1-basic/index.es5.html)
 
 #### Usage:
 
 _CDNs:_
 
-* [Github Pages](http://warren-bank.github.io/js-browser-menu-scroller/MenuScroller.js)
-* [jsDelivr](https://cdn.jsdelivr.net/gh/warren-bank/js-browser-menu-scroller/MenuScroller.min.js)
+* Github Pages
+  * [ES6](http://warren-bank.github.io/js-browser-menu-scroller/MenuScroller.js)
+  * [ES5 w/ sourcemap](http://warren-bank.github.io/js-browser-menu-scroller/MenuScroller.es5.js)
+* jsDelivr
+  * [ES6](https://cdn.jsdelivr.net/gh/warren-bank/js-browser-menu-scroller/MenuScroller.js)
+  * [ES6 minified w/ sourcemap](https://cdn.jsdelivr.net/gh/warren-bank/js-browser-menu-scroller/MenuScroller.min.js)
+  * [ES5 w/ sourcemap](https://cdn.jsdelivr.net/gh/warren-bank/js-browser-menu-scroller/MenuScroller.es5.js)
+  * [ES5 minified w/ sourcemap](https://cdn.jsdelivr.net/gh/warren-bank/js-browser-menu-scroller/MenuScroller.es5.min.js)
 
 _API:_
 
@@ -126,11 +134,6 @@ _API:_
       * measured in milliseconds
       * default: 500
         * half of a second
-
-#### Dependencies:
-
-* library is coded in ES6 syntax
-  * ancient web browsers will need the library to be transpiled into ES5 syntax (with webpack)
 
 #### Legal:
 

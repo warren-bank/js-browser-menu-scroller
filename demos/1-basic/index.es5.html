@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>MenuScroller: Basic Demo</title>
+
+  <script
+    x-src="https://github.com/warren-bank/js-browser-menu-scroller/raw/gh-pages/MenuScroller.es5.js"
+      src="../../MenuScroller.es5.js"
+  ></script>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+
+      const ids = {
+        bind:  null,
+        affix: null
+      }
+
+      const initialize_bind = () => {
+        const menuElements   = [...document.querySelectorAll('body > nav     > ul#menu > li')]
+        const markerElements = [...document.querySelectorAll('body > article > h1')]
+        const cssClass       = 'active'
+        const options        = {}
+
+        ids.bind = window.MenuScroller.bind(menuElements, markerElements, cssClass, options)
+      }
+
+      const initialize_affix = () => {
+        const menu    = document.querySelector('body > nav > ul')
+        const options = {}
+
+        ids.affix = window.MenuScroller.affix(menu, options)
+      }
+
+      const enable = () => {
+        if (ids.bind === null)
+          initialize_bind()
+
+        if (ids.affix === null)
+          initialize_affix()
+      }
+
+      const disable = () => {
+        if (ids.bind !== null)
+          ids.bind = window.MenuScroller.unbind(ids.bind)
+
+        if (ids.affix !== null)
+          ids.affix = window.MenuScroller.unaffix(ids.affix)
+      }
+
+      const debounce = () => {
+        const debounce_ms = parseInt(document.getElementById('debounce_ms').value, 10)
+
+        if ((typeof debounce_ms === 'number') && !isNaN(debounce_ms) && (debounce_ms >= 0))
+          window.MenuScroller.debounce(debounce_ms)
+      }
+
+      document.getElementById('enable'  ).addEventListener('click', enable)
+      document.getElementById('disable' ).addEventListener('click', disable)
+      document.getElementById('debounce').addEventListener('click', debounce)
+
+      enable()
+    })
+  </script>
+
+  <style>
+    body {
+      font-size: 16px;
+
+      display: flex;
+      flex-direction: row;
+    }
+    body > nav, body > article {
+      flex-shrink: 0;
+    }
+    body > nav {
+      flex-grow: 0;
+    }
+    body > article {
+      flex-grow: 1;
+    }
+
+    body > nav > ul#menu {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      margin-right: 15px;
+    }
+    body > nav > ul#menu > li {
+      font-family: monospace;
+      font-size: 1.5em;
+      cursor: pointer;
+
+      border-left: 3px solid transparent;
+      padding-left: 3px;
+    }
+    body > nav > ul#menu > li:hover {
+      font-weight: bold;
+    }
+    body > nav > ul#menu > li.active {
+      border-left-color: red;
+    }
+
+    body > article > h1 {
+      margin: 0;
+      font-family: sans-serif;
+      font-size: 2em;
+    }
+    body > article > div.mock_content {
+      height: 50em;
+    }
+
+    body > article > div#buttons {
+      text-align: center;
+    }
+    body > article > div#buttons > button,
+    body > article > div#buttons > input {
+      display: inline-block;
+      margin-right: 0.5em;
+      font-size: 1.5em;
+    }
+    body > article > div#buttons > input {
+      margin-left: 4em;
+    }
+    body > article > div#buttons > button:last-child {
+      margin-right: 0;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul id="menu">
+      <li class="active">home</li>
+      <li>work</li>
+      <li>about</li>
+      <li>contact</li>
+    </ul>
+  </nav>
+  <article>
+    <div id="buttons">
+      <button id="enable">Enable</button>
+      <button id="disable">Disable</button>
+      <input  id="debounce_ms" type="text" size="3" value="500" />
+      <button id="debounce">Debounce</button>
+    </div>
+    <hr />
+    <h1>Home</h1>
+    <div class="mock_content"></div>
+    <h1>Work</h1>
+    <div class="mock_content"></div>
+    <h1>About</h1>
+    <div class="mock_content"></div>
+    <h1>Contact</h1>
+    <div class="mock_content"></div>
+  </article>
+</body>
+</html>

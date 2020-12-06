@@ -1,0 +1,22 @@
+{
+  "name": "@warren-bank/js-browser-menu-scroller",
+  "private": true,
+  "license": "GPL-2.0",
+  "devDependencies": {
+    "@babel/cli": "*",
+    "@babel/core": "*",
+    "@babel/preset-env": "*",
+    "babel-plugin-iife-wrap": "*"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "plugins": [
+      "iife-wrap"
+    ]
+  },
+  "scripts": {
+    "build": "babel MenuScroller.js --out-file MenuScroller.es5.js --source-maps"
+  }
+}
