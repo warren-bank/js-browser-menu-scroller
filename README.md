@@ -8,6 +8,9 @@ Small javascript library to perform two-way binding between vertical scrolling i
    * [ES6](http://warren-bank.github.io/js-browser-menu-scroller/demos/1-basic/index.html)
      * [source](https://github.com/warren-bank/js-browser-menu-scroller/blob/gh-pages/demos/1-basic/index.html)
    * [ES5](http://warren-bank.github.io/js-browser-menu-scroller/demos/1-basic/index.es5.html)
+2. Dynamic Demo with React and Babel (Standalone)
+   * [ES6](http://warren-bank.github.io/js-browser-menu-scroller/demos/2-dynamic/index.html)
+     * [source](https://github.com/warren-bank/js-browser-menu-scroller/blob/gh-pages/demos/2-dynamic/index.html)
 
 #### Usage:
 

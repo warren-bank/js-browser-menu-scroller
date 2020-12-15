@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>MenuScroller: Dynamic Demo</title>
+
+  <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <script
+    x-src="https://github.com/warren-bank/js-browser-menu-scroller/raw/gh-pages/MenuScroller.js"
+      src="../../MenuScroller.js"
+  ></script>
+
+  <style>
+    body,
+    body > #root,
+    body > #root > #demo_wrapper {
+      margin: 0;
+      padding: 0;
+    }
+
+    body > #root > #demo_wrapper {
+      padding: 8px;
+      font-size: 16px;
+
+      display: flex;
+      flex-direction: row;
+    }
+    body > #root > #demo_wrapper > nav, body > article {
+      flex-shrink: 0;
+    }
+    body > #root > #demo_wrapper > nav {
+      flex-grow: 0;
+    }
+    body > #root > #demo_wrapper > article {
+      flex-grow: 1;
+    }
+
+    body > #root > #demo_wrapper > nav > ul#menu {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      margin-right: 15px;
+    }
+    body > #root > #demo_wrapper > nav > ul#menu > li {
+      font-family: monospace;
+      font-size: 1.5em;
+      cursor: pointer;
+
+      border-left: 3px solid transparent;
+      padding-left: 3px;
+    }
+    body > #root > #demo_wrapper > nav > ul#menu > li:hover {
+      font-weight: bold;
+    }
+    body > #root > #demo_wrapper > nav > ul#menu > li.active {
+      border-left-color: red;
+    }
+    body > #root > #demo_wrapper > nav > ul#menu > li:first-child:hover {
+      color: red;
+    }
+    body > #root > #demo_wrapper > nav > ul#menu > li:first-child.active {
+      border-left-color: transparent;
+    }
+
+    body > #root > #demo_wrapper > article > div#buttons {
+      text-align: center;
+    }
+    body > #root > #demo_wrapper > article > div#buttons > button,
+    body > #root > #demo_wrapper > article > div#buttons > input {
+      display: inline-block;
+      margin-right: 0.5em;
+      font-size: 1.5em;
+    }
+    body > #root > #demo_wrapper > article > div#buttons > input {
+      margin-left: 4em;
+    }
+    body > #root > #demo_wrapper > article > div#buttons > button:last-child {
+      margin-right: 0;
+    }
+
+    body > #root > #demo_wrapper > article > div#tabs {
+      display: flex;
+      flex-direction: row;
+    }
+    body > #root > #demo_wrapper > article > div#tabs > div {
+      flex-shrink: 0;
+      flex-grow: 1;
+
+      text-align: center;
+      line-height: 2em;
+      margin: 0 2em;
+      background-color: #ddd;
+      border-radius: 10px 10px 0 0;
+      cursor: pointer;
+    }
+    body > #root > #demo_wrapper > article > div#tabs > div.active {
+      background-color: #999;
+      color: #fff;
+      cursor: default;
+    }
+    body > #root > #demo_wrapper > article > div#tabs + hr {
+      margin-top: 0;
+    }
+
+    body > #root > #demo_wrapper > article > div#tab_content {
+    }
+    body > #root > #demo_wrapper > article > div#tab_content > div.content_wrapper > h1 {
+      margin: 0;
+      font-family: sans-serif;
+      font-size: 2em;
+    }
+    body > #root > #demo_wrapper > article > div#tab_content > div.content_wrapper > div.mock_content {
+      height: 50em;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    {
+      const ids = {
+        bind:  null,
+        affix: null
+      }
+
+      const initialize_bind = () => {
+        const menuElements   = [
+          ...document.querySelectorAll('body > #root > #demo_wrapper > nav > ul#menu > li')
+        ]
+        const markerElements = [
+          document.getElementById('demo_wrapper'),
+          ...document.querySelectorAll('body > #root > #demo_wrapper > article > div#tab_content > div.content_wrapper > h1')
+        ]
+        const cssClass       = 'active'
+        const options        = {}
+
+        ids.bind = window.MenuScroller.bind(menuElements, markerElements, cssClass, options)
+      }
+
+      const initialize_affix = () => {
+        const menu    = document.querySelector('body > #root > #demo_wrapper > nav > ul#menu')
+        const options = {}
+
+        ids.affix = window.MenuScroller.affix(menu, options)
+      }
+
+      const enable = () => {
+        if (ids.bind === null)
+          initialize_bind()
+
+        if (ids.affix === null)
+          initialize_affix()
+      }
+
+      const disable = () => {
+        if (ids.bind !== null)
+          ids.bind = window.MenuScroller.unbind(ids.bind)
+
+        if (ids.affix !== null)
+          ids.affix = window.MenuScroller.unaffix(ids.affix)
+      }
+
+      const reenable = () => {
+        disable()
+        enable()
+      }
+
+      const debounce = () => {
+        const debounce_ms = parseInt(document.getElementById('debounce_ms').value, 10)
+
+        if ((typeof debounce_ms === 'number') && !isNaN(debounce_ms) && (debounce_ms >= 0))
+          window.MenuScroller.debounce(debounce_ms)
+      }
+
+      // -----------------------------------------------------------------------
+
+      const tabs_data = [{
+        label: "Home",
+        headings: ["Products", "Demos", "Pricing", "Trial"]
+      },{
+        label: "Work",
+        headings: ["Past Clients", "Portfolio", "Awards", "Reviews", "Blog"]
+      },{
+        label: "About",
+        headings: ["History", "Mission", "Team", "Investors"]
+      },{
+        label: "Contact",
+        headings: ["Email", "Phone", "Live Chat", "Issue Tracker", "Social Media"]
+      }]
+
+      const App = () => {
+        const [active_tab_index, set_active_tab_index] = window.React.useState(0)
+
+        const tab_labels = tabs_data.map(data => data.label)
+        const active_tab_headings = tabs_data[active_tab_index].headings
+
+        window.React.useEffect(reenable)
+
+        return (
+          <div id="demo_wrapper">
+            <nav>
+              <ul id="menu">
+                <li>&#8593;</li>
+                {
+                  active_tab_headings.map((heading, index) => (<li key={index}>{heading}</li>))
+                }
+              </ul>
+            </nav>
+            <article>
+              <div id="buttons">
+                <button id="enable"   onClick={enable}>Enable</button>
+                <button id="disable"  onClick={disable}>Disable</button>
+                <input  id="debounce_ms" type="text" size="3" defaultValue="500" />
+                <button id="debounce" onClick={debounce}>Debounce</button>
+              </div>
+              <hr />
+              <div id="tabs">
+                {
+                  tab_labels.map((label, index) => (<div key={index} className={(index === active_tab_index)? "active" : ""} onClick={() => set_active_tab_index(index)}>{label}</div>))
+                }
+              </div>
+              <hr />
+              <div id="tab_content">
+                {
+                  active_tab_headings.map((heading, index) => (<div key={index} className="content_wrapper"><h1>{heading}</h1><div className="mock_content"></div></div>))
+                }
+              </div>
+            </article>
+          </div>
+        )
+      }
+
+      window.ReactDOM.render(<App />, document.getElementById('root'))
+    }
+  </script>
+</body>
+</html>
